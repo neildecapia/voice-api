@@ -1,0 +1,15 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: voice_api
+  password: password
+  socket: /tmp/mysql.sock
+
+development:
+  <<: *default
+  database: voice_api_development
+
+test:
+  <<: *default
+  database: voice_api_test
