@@ -7,7 +7,10 @@ gem 'unicorn'
 
 gem 'ruby_ami'
 
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+group :development do
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rbenv', require: false
+end
 
 gem 'rspec-rails', '~> 3.0.0.beta', group: [:development, :test]
