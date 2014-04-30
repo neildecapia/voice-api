@@ -29,6 +29,11 @@ GEM
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
     builder (3.2.2)
+    celluloid (0.15.2)
+      timers (~> 1.1.0)
+    celluloid-io (0.15.0)
+      celluloid (>= 0.15.0)
+      nio4r (>= 0.5.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     hike (1.2.3)
@@ -45,6 +50,7 @@ GEM
     minitest (5.3.3)
     multi_json (1.9.2)
     mysql2 (0.3.13)
+    nio4r (1.0.0)
     polyglot (0.3.4)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -86,6 +92,8 @@ GEM
       rspec-mocks (= 3.0.0.beta2)
       rspec-support (= 3.0.0.beta2)
     rspec-support (3.0.0.beta2)
+    ruby_ami (2.2.0)
+      celluloid-io (~> 0.13)
     sprockets (2.12.1)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -98,6 +106,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.3)
     tilt (1.4.1)
+    timers (1.1.0)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -116,4 +125,5 @@ DEPENDENCIES
   mysql2 (= 0.3.13)
   rails (= 4.1.0)
   rspec-rails (~> 3.0.0.beta)
+  ruby_ami
   unicorn

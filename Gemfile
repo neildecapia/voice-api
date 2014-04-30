@@ -5,6 +5,8 @@ gem 'mysql2', '0.3.13'
 gem 'jbuilder', '~> 2.0'
 gem 'unicorn'
 
+gem 'ruby_ami'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

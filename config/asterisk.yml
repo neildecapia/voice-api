@@ -1,0 +1,16 @@
+default: &default
+  host: localhost
+  port: 5038
+  username: neil
+  password: password
+  calls:
+    exten: '100'
+    context: 'LocalSets'
+    priority: '1'
+    async: 'true'
+
+development:
+  <<: *default
+
+test:
+  <<: *default
