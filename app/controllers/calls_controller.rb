@@ -1,5 +1,7 @@
 class CallsController < ApplicationController
 
+  doorkeeper_for :all
+
   respond_to :json
 
   def create
@@ -14,7 +16,7 @@ class CallsController < ApplicationController
   private
 
   def call_params
-    params.permit(:format, :from, :to, :caller_name, :time_limit, :call_cost, :ring_timeout)
+    params.permit(:from, :to, :caller_name, :time_limit, :call_cost, :ring_timeout)
   end
 
 end
