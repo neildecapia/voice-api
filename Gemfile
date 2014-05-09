@@ -7,6 +7,11 @@ gem 'unicorn'
 
 gem 'ruby_ami'
 
+gem 'doorkeeper'
+# @note Remove this once Doorkeeper application management has been
+#   removed
+gem 'sass-rails', '~> 4.0.3'
+
 group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
