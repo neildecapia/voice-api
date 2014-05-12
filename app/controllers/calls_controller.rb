@@ -4,6 +4,12 @@ class CallsController < ApplicationController
 
   respond_to :json
 
+  def index
+    @calls = current_account.call_details
+      .page(params[:page])
+      .per(params[:per_page])
+  end
+
   def create
     @call = Call.create call_params
 
@@ -19,6 +25,10 @@ class CallsController < ApplicationController
     params
       .permit(:from, :to, :caller_name, :time_limit, :call_cost, :ring_timeout)
       .merge(account_id: current_account_id)
+  end
+
+  def current_account
+    doorkeeper_token.application
   end
 
   def current_account_id

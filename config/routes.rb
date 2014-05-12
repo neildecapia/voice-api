@@ -6,6 +6,6 @@ Rails.application.routes.draw do
       skip_controllers :authorized_applications
     end
 
-    resources :calls, only: :create
+    resources :calls, only: [ :index, :create ]
   end
 end

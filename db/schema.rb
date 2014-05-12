@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140509063018) do
+ActiveRecord::Schema.define(version: 20140512051606) do
+
+  create_table "call_details", force: true do |t|
+    t.string   "unique_id",           limit: 32
+    t.integer  "account_id"
+    t.string   "source",              limit: 80
+    t.string   "source_channel",      limit: 80
+    t.string   "caller_id",           limit: 80
+    t.string   "destination",         limit: 80
+    t.string   "destination_channel", limit: 80
+    t.integer  "sequence"
+    t.string   "disposition",         limit: 45
+    t.datetime "started_at"
+    t.datetime "answered_at"
+    t.datetime "ended_at"
+    t.integer  "duration"
+    t.integer  "billable_duration"
+  end
 
   create_table "oauth_access_grants", force: true do |t|
     t.integer  "resource_owner_id", null: false

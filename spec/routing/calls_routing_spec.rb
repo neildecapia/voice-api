@@ -3,8 +3,11 @@ require 'spec_helper'
 describe CallsController do
 
   describe 'routing' do
-    it 'does not route to #index' do
-      expect(get: '/v1/calls').not_to be_routable
+    it 'routes to #index' do
+      expect(get: '/v1/calls').to route_to(
+        controller: 'calls',
+        action: 'index'
+      )
     end
 
     it 'does not route to #show' do
