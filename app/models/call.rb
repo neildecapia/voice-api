@@ -18,7 +18,7 @@ class Call
     @attrs = args.with_indifferent_access
   end
 
-  [ :from, :to, :caller_name, :time_limit, :call_cost ]
+  [ :account_id, :from, :to, :caller_name, :time_limit, :call_cost ]
     .each do |attr|
       define_method attr do
         @attrs[attr]
@@ -42,6 +42,7 @@ class Call
 
   def place_call
     params = {
+      account: account_id,
       channel: to,
       timeout: ring_timeout * 10_000
     }

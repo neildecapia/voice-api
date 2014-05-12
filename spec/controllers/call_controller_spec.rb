@@ -13,7 +13,8 @@ describe CallsController do
 
     context 'when authenticated' do
       let(:token) do
-        double accessible?: true
+        application = stub_model(Doorkeeper::Application)
+        double(accessible?: true, application_id: application.id)
       end
 
       before do

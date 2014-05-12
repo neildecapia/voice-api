@@ -16,7 +16,13 @@ class CallsController < ApplicationController
   private
 
   def call_params
-    params.permit(:from, :to, :caller_name, :time_limit, :call_cost, :ring_timeout)
+    params
+      .permit(:from, :to, :caller_name, :time_limit, :call_cost, :ring_timeout)
+      .merge(account_id: current_account_id)
+  end
+
+  def current_account_id
+    doorkeeper_token.application_id
   end
 
 end
