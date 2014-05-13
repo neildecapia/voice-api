@@ -1,5 +1,7 @@
 json.array!(@calls) do |call|
-  json.extract! call, :id, :account_id, :source, :caller_id,
-    :destination, :destination_channel, :disposition,
-    :started_at, :ended_at, :answered_at, :billable_duration
+  json.extract! call, :account_id, :source, :caller_id, :destination
+  json.disposition call.disposition.to_s.downcase
+
+  json.extract! call, :started_at, :ended_at, :answered_at
+  json.call_duration call.billable_duration
 end
