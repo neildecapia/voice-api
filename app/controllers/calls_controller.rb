@@ -6,6 +6,7 @@ class CallsController < ApplicationController
 
   def index
     @calls = current_account.call_details
+      .order(:started_at)
       .page(params[:page])
       .per(params[:per_page])
   end
