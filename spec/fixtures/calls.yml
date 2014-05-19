@@ -1,0 +1,17 @@
+---
+answered:
+  unique_id: 1
+  account_id: 1
+  source: user1
+  source_channel: SIP/user1-0
+  caller_name: "\\\"SIP Client 1\\\" <user1>"
+  destination: 100
+  destination_channel: ~
+  sequence: 0
+  status: ANSWERED
+  started_at: <%= 30.seconds.ago.to_formatted_s(:db) %>
+  answered_at: <%= 25.seconds.ago.to_formatted_s(:db) %>
+  ended_at: <%= 10.seconds.ago.to_formatted_s(:db) %>
+  billable_duration: 15
+  duration: 20
+  per_minute_rate: 0

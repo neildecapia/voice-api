@@ -3,7 +3,7 @@ require 'spec_helper'
 describe CallsController do
 
   let(:application) do
-    stub_model(Doorkeeper::Application)
+    stub_model(Doorkeeper::Application, id: 1)
   end
 
   let(:token) do
@@ -15,6 +15,7 @@ describe CallsController do
   end
 
   describe 'GET /calls' do
+    fixtures :calls
 
     context 'when not authenticated' do
       it 'responds with an HTTP 401 status code' do
@@ -40,10 +41,8 @@ describe CallsController do
       end
 
       it "assigns the account's call details to @calls" do
-        calls = Kaminari.paginate_array([ CallDetail.new ])
-        allow(application).to receive(:call_details) { calls }
         get :index, format: :json
-        expect(assigns(:calls)).to eq(calls)
+        expect(assigns(:calls)).to eq([ calls(:answered) ])
       end
     end
 

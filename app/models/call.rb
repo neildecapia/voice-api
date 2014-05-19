@@ -1,77 +1,99 @@
-class Call
+class Call < ActiveRecord::Base
+
+  NULL_TIMESTAMP = Time.at(0).utc
 
   class_attribute :client
   self.client = Api::Application.config.client
 
-  attr_accessor :id, :status, :message, :destination, :created_at
+  belongs_to :account, class_name: 'Doorkeeper::Application'
 
-  class << self
+  validates :account, presence: true
+  validates :destination_channel, presence: true
+  validates :time_limit,
+    numericality: {
+      only_integer: true,
+      allow_nil: true,
+      greater_than_or_equal_to: 0
+    }
+  validates :per_minute_rate,
+    numericality: {
+      allow_nil: true,
+      greater_than_or_equal_to: 0
+    }
+  validates :ring_timeout,
+    numericality: {
+      only_integer: true,
+      allow_nil: true,
+      greater_than_or_equal_to: 0
+    }
 
-    def create(*args)
-      new(*args).save
-    end
+  after_validation :place_call
+  before_save :never_save_from_here
+  before_destroy :never_destroy_from_here
 
+  alias_attribute :to, :destination_channel
+  attr_accessor :time_limit, :ring_timeout
+
+  def status
+    return self[:status] unless self[:status].respond_to?(:downcase)
+    self[:status].downcase
   end
 
-  def initialize(args)
-    return unless Hash === args
-    @attrs = args.with_indifferent_access
-  end
-
-  [ :account_id, :from, :to, :caller_name, :time_limit, :call_cost ]
-    .each do |attr|
-      define_method attr do
-        @attrs[attr]
-      end
+  # @hack Better if we can get Asterisk to set proper NULL timestamps.
+  def answered_at
+    if self[:answered_at] && (self[:answered_at] > NULL_TIMESTAMP)
+      self[:answered_at]
     end
+  end
 
   def ring_timeout
-    Integer(@attrs[:ring_timeout])
+    Integer(self[:ring_timeout]).seconds
 
   rescue TypeError
-    120
-  end
-
-  def save
-    place_call
-    self
+    120.seconds
   end
 
 
   protected
 
   def place_call
-    params = {
-      account: account_id,
-      channel: to,
-      timeout: ring_timeout * 10_000
-    }
-    params.update(callerid: caller_name) if caller_name.present?
+    return unless errors.empty?
 
-    result = client.call params
-    parse_response result
+    begin
+      result = client.call(
+        account: account_id,
+        destination: destination_channel,
+        callerid: caller_name,
+        time_limit: time_limit,
+        per_minute_rate: per_minute_rate,
+        ring_timeout: ring_timeout
+      )
 
-  rescue StandardError => e
-    parse_error e
+      parse_response result
 
-  ensure
-    @created_at = Time.now
+    rescue StandardError => e
+      parse_error e
+
+    ensure
+      self.started_at = Time.now.utc
+    end
   end
+
+  def never_save_from_here
+    false
+  end
+  alias never_destroy_from_here never_save_from_here
 
 
   private
 
   def parse_response(response)
-    @id = response.action_id
-    @status = response.has_text_body? ? response.text_body : 'OK'
-    @message = response['Message']
-    @destination = to
+    self.id = response.action_id
   end
 
   def parse_error(error)
-    @id = error.action_id
-    @status = 'ERR'
-    @message = error.message
+    self.id = error.action_id
+    self.errors[:base] = error.message
   end
 
 end

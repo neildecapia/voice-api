@@ -13,7 +13,41 @@ class Clients::Asterisk::Client
   end
 
   def call(options = {})
-    @connection.originate options.reverse_merge(@config.call_options)
+    @connection.originate call_params_from_options(options)
+  end
+
+
+  protected
+
+  def call_params_from_options(options)
+    raise ArgumentError unless Hash === options
+
+    call_params = options.slice(:account)
+    call_params[:channel] = options[:destination]
+
+    if options[:callerid].present?
+      call_params[:callerid] = options[:callerid]
+    end
+
+    if options[:ring_timeout].present?
+      begin
+        call_params[:timeout] = Integer(options[:ring_timeout]) * 10_000
+      rescue TypeError
+      end
+    end
+
+    variables = []
+    if options[:time_limit].present?
+      variables.push "TIMEOUT(absolute)=#{options[:time_limit]}"
+    end
+    if options[:per_minute_rate].present?
+      variables.push "CDR(per_minute_rate)=#{options[:per_minute_rate]}"
+    end
+    unless variables.empty?
+      call_params[:variable] = variables.join(',')
+    end
+
+    call_params.reverse_merge @config.call_options
   end
 
 end

@@ -5,14 +5,14 @@ class CallsController < ApplicationController
   respond_to :json
 
   def index
-    @calls = current_account.call_details
+    @calls = current_account.calls
       .order(:started_at)
       .page(params[:page])
       .per(params[:per_page])
   end
 
   def create
-    @call = Call.create call_params
+    @call = current_account.calls.create call_params
 
     respond_with(@call) do |format|
       format.json { render 'show' }
@@ -23,9 +23,13 @@ class CallsController < ApplicationController
   private
 
   def call_params
-    params
-      .permit(:from, :to, :caller_name, :time_limit, :call_cost, :ring_timeout)
-      .merge(account_id: current_account_id)
+    params.permit(
+      :to,
+      :caller_name,
+      :time_limit,
+      :per_minute_rate,
+      :ring_timeout
+    )
   end
 
   def current_account
