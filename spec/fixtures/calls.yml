@@ -1,7 +1,7 @@
 ---
 answered:
   unique_id: 1
-  account_id: 1
+  account: alice
   source: user1
   source_channel: SIP/user1-0
   caller_name: "\\\"SIP Client 1\\\" <user1>"

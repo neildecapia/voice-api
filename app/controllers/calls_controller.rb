@@ -14,8 +14,15 @@ class CallsController < ApplicationController
   def create
     @call = current_account.calls.create call_params
 
-    respond_with(@call) do |format|
-      format.json { render 'show' }
+    respond_with @call do |format|
+      format.json do
+        if @call.valid?
+          @message = t('.successful')
+
+        else
+          render json: { errors: @call.errors.full_messages }, status: :unprocessable_entity
+        end
+      end
     end
   end
 
@@ -30,14 +37,6 @@ class CallsController < ApplicationController
       :per_minute_rate,
       :ring_timeout
     )
-  end
-
-  def current_account
-    doorkeeper_token.application
-  end
-
-  def current_account_id
-    doorkeeper_token.application_id
   end
 
 end

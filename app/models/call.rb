@@ -31,6 +31,7 @@ class Call < ActiveRecord::Base
   before_save :never_save_from_here
   before_destroy :never_destroy_from_here
 
+  alias_attribute :from, :source_channel
   alias_attribute :to, :destination_channel
   attr_accessor :time_limit, :ring_timeout
 

@@ -2,8 +2,11 @@ require 'spec_helper'
 
 describe CallsController do
 
+  set_fixture_class oauth_applications: Doorkeeper::Application
+  fixtures :oauth_applications
+
   let(:application) do
-    stub_model(Doorkeeper::Application, id: 1)
+    oauth_applications(:alice)
   end
 
   let(:token) do
@@ -20,7 +23,7 @@ describe CallsController do
     context 'when not authenticated' do
       it 'responds with an HTTP 401 status code' do
         get :index, format: :json
-        expect(response.status).to eq(401)
+        expect(response.code).to eq('401')
       end
     end
 
@@ -31,8 +34,8 @@ describe CallsController do
 
       it 'responds successfully with an HTTP 200 status code' do
         get :index, format: :json
-        expect(response).to be_success
-        expect(response.status).to eq(200)
+        expect(response).to be_successful
+        expect(response.code).to eq('200')
       end
 
       it 'renders the index template' do
@@ -53,7 +56,7 @@ describe CallsController do
     context 'when not authenticated' do
       it 'responds with an HTTP 401 status code' do
         post :create, format: :json
-        expect(response.status).to eq(401)
+        expect(response.code).to eq('401')
       end
     end
 
@@ -63,14 +66,31 @@ describe CallsController do
       end
 
       it 'responds successfully with an HTTP 200 status code' do
-        post :create, format: :json
-        expect(response).to be_success
-        expect(response.status).to eq(200)
+        post :create, to: 'sip/user1', format: :json
+        expect(response).to be_successful
+        expect(response.code).to eq('200')
       end
 
-      it 'renders the show template' do
-        post :create, format: :json
-        expect(response).to render_template('show')
+      it 'assigns a "call successful" message to @message' do
+        post :create, to: 'sip/user1', format: :json
+        expect(assigns(:message)).to eq(I18n.t(:successful, scope: [ :calls, :create ]))
+      end
+
+      it 'renders the create template' do
+        post :create, to: 'sip/user1', format: :json
+        expect(response).to render_template('create')
+      end
+
+      context 'but the request is invalid' do
+        it 'responds with an HTTP 422 status code' do
+          post :create, format: :json
+          expect(response.code).to eq('422')
+        end
+
+        it 'renders an error message' do
+          post :create, format: :json
+          expect(response.body).to eq({errors: ["To can't be blank"]}.to_json)
+        end
       end
 
       context 'performance' do
