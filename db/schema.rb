@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140512051606) do
+ActiveRecord::Schema.define(version: 20140526161336) do
+
+  create_table "active_calls", force: true do |t|
+    t.string  "unique_id",  limit: 32
+    t.integer "account_id"
+    t.string  "channel",    limit: 80
+  end
+
+  add_index "active_calls", ["account_id"], name: "index_active_calls_on_account_id", using: :btree
+  add_index "active_calls", ["channel"], name: "index_active_calls_on_channel", using: :btree
+  add_index "active_calls", ["unique_id"], name: "index_active_calls_on_unique_id", unique: true, using: :btree
 
   create_table "calls", force: true do |t|
     t.string   "unique_id",           limit: 32

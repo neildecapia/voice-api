@@ -5,24 +5,10 @@ class Clients::Asterisk::EventHandler
   end
 
   def call(event)
-    case event
-    when RubyAMI::Stream::ConnectionStatus
+    return unless RubyAMI::Event === event
 
-    when RubyAMI::Event
-      dispatch event
-    end
-  end
-
-
-  protected
-
-  def dispatch(event)
-    send event.name.to_s.underscore, event
-
-  rescue NoMethodError
-  end
-
-  def originate_response(event)
+    method = event.name.to_s.underscore
+    __send__ method, event if respond_to?(method)
   end
 
 end
