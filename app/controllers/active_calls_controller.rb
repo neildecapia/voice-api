@@ -11,4 +11,13 @@ class ActiveCallsController < ApplicationController
       .per(params[:per_page])
   end
 
+  def destroy
+    @active_call = current_account.active_calls.find(params[:id])
+    @active_call.destroy
+    render nothing: true, status: :no_content
+
+  rescue ActiveRecord::RecordNotFound
+    render json: { errors: [ t('.not_found') ] }, status: :not_found
+  end
+
 end

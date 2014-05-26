@@ -6,3 +6,6 @@ en:
   calls:
     create:
       successful: 'Call initiated'
+  active_calls:
+    destroy:
+      not_found: 'Active call not found'

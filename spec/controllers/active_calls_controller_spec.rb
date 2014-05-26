@@ -51,4 +51,59 @@ describe ActiveCallsController do
     end
   end
 
+  describe "DELETE 'destroy'" do
+    fixtures :active_calls
+
+    before do
+      active_calls(:user1).update_attribute(:account_id, application.id)
+      @id = active_calls(:user1).id
+    end
+
+    context 'when not authenticated' do
+      it 'returns http unauthorized' do
+        delete :destroy, id: @id, format: :json
+        expect(response.code).to eq('401')
+      end
+    end
+
+    context 'when authenticated' do
+      before do
+        allow(controller).to receive(:doorkeeper_token) { token }
+      end
+
+      it "returns http no content" do
+        delete :destroy, id: @id, format: :json
+        expect(response.code).to eq('204')
+      end
+
+      it 'renders nothing' do
+        delete :destroy, id: @id, format: :json
+        expect(response.body).to be_blank
+      end
+
+      it "assigns the requested active call to @active_call" do
+        active_calls(:user1).update_attribute(:account_id, application.id)
+
+        delete :destroy, id: @id, format: :json
+        expect(assigns(:active_call)).to eq(active_calls(:user1))
+      end
+
+      context 'and requested active call not found' do
+        it 'returns http not found' do
+          delete :destroy, id: 0, format: :json
+          expect(response.code).to eq('404')
+        end
+
+        it 'renders an error message' do
+          delete :destroy, id: 0, format: :json
+          expect(response.body).to eq({
+            errors: [
+              I18n.t(:not_found, scope: [ :active_calls, :destroy ])
+            ]
+          }.to_json)
+        end
+      end
+    end
+  end
+
 end

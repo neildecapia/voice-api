@@ -23,11 +23,15 @@ describe ActiveCallsController do
     end
 
     it 'does not route to #update' do
-      expect(put: '/v1/active_calls').not_to be_routable
+      expect(put: '/v1/active_calls/1').not_to be_routable
     end
 
     it 'does not route to #destroy' do
-      expect(delete: '/v1/active_calls').not_to be_routable
+      expect(delete: '/v1/active_calls/1').to route_to(
+        controller: 'active_calls',
+        action: 'destroy',
+        id: '1'
+      )
     end
   end
 

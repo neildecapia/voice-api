@@ -7,6 +7,6 @@ Rails.application.routes.draw do
     end
 
     resources :calls, only: [ :index, :create ]
-    resources :active_calls, only: :index
+    resources :active_calls, only: [ :index, :destroy ]
   end
 end
