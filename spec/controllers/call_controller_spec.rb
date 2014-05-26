@@ -17,11 +17,11 @@ describe CallsController do
     )
   end
 
-  describe 'GET /calls' do
+  describe "GET 'index'" do
     fixtures :calls
 
     context 'when not authenticated' do
-      it 'responds with an HTTP 401 status code' do
+      it 'returns http unauthorized' do
         get :index, format: :json
         expect(response.code).to eq('401')
       end
@@ -32,9 +32,9 @@ describe CallsController do
         allow(controller).to receive(:doorkeeper_token) { token }
       end
 
-      it 'responds successfully with an HTTP 200 status code' do
+      it 'returns http success' do
         get :index, format: :json
-        expect(response).to be_successful
+        expect(response).to be_success
         expect(response.code).to eq('200')
       end
 
@@ -51,10 +51,10 @@ describe CallsController do
 
   end
 
-  describe 'POST /calls' do
+  describe "POST 'create'" do
 
     context 'when not authenticated' do
-      it 'responds with an HTTP 401 status code' do
+      it 'returns http unauthorized' do
         post :create, format: :json
         expect(response.code).to eq('401')
       end
@@ -65,9 +65,9 @@ describe CallsController do
         allow(controller).to receive(:doorkeeper_token) { token }
       end
 
-      it 'responds successfully with an HTTP 200 status code' do
+      it 'returns http success' do
         post :create, to: 'sip/user1', format: :json
-        expect(response).to be_successful
+        expect(response).to be_success
         expect(response.code).to eq('200')
       end
 
@@ -82,7 +82,7 @@ describe CallsController do
       end
 
       context 'but the request is invalid' do
-        it 'responds with an HTTP 422 status code' do
+        it 'returns http unprocessable entity' do
           post :create, format: :json
           expect(response.code).to eq('422')
         end

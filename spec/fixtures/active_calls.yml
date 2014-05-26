@@ -1,0 +1,8 @@
+---
+user1:
+  unique_id: 1
+  channel: SIP/user1-0
+
+user2:
+  unique_id: 2
+  channel: SIP/user2-1
