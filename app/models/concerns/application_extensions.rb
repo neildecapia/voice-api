@@ -3,8 +3,12 @@ module ApplicationExtensions
   extend ActiveSupport::Concern
 
   included do
-    has_many :calls, foreign_key: 'account_id'
-    has_many :active_calls, foreign_key: 'account_id'
+    with_options foreign_key: 'account_id' do |account|
+      account.has_many :calls
+      account.has_many :active_calls
+
+      account.has_many :sounds
+    end
   end
 
 end

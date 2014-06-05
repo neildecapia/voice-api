@@ -9,3 +9,9 @@ en:
   active_calls:
     destroy:
       not_found: 'Active call not found'
+  sounds:
+    not_found: 'Sound not found'
+    create:
+      successful: 'Sound successfully created'
+    update:
+      successful: 'Sound successfully updated'
