@@ -1,0 +1,10 @@
+default: &default
+  enable_processing: false
+  base_path: <%= Rails.public_path %>
+  storage: file
+
+development:
+  <<: *default
+
+test:
+  <<: *default

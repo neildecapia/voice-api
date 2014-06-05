@@ -11,3 +11,4 @@
 /config/database.yml
 /config/secrets.yml
 /config/asterisk.yml
+/public/uploads

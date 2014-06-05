@@ -4,6 +4,7 @@ gem 'rails', '4.1.1'
 gem 'mysql2', '0.3.13'
 gem 'jbuilder', '~> 2.0'
 gem 'kaminari'
+gem 'carrierwave'
 gem 'unicorn'
 
 gem 'ruby_ami'
