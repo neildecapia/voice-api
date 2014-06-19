@@ -17,7 +17,7 @@ class ActiveCallsController < ApplicationController
     render nothing: true, status: :no_content
 
   rescue ActiveRecord::RecordNotFound
-    render json: { errors: [ t('.not_found') ] }, status: :not_found
+    render json: { errors: [ t('active_calls.not_found') ] }, status: :not_found
   end
 
 end

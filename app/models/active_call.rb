@@ -5,6 +5,19 @@ class ActiveCall < ActiveRecord::Base
 
   after_commit :hangup_call, on: :destroy
 
+  def play_sound(sound)
+    client.play_sound(
+      channel: channel,
+      path: sound.path
+    )
+  end
+
+  def stop_sound(sound)
+    client.stop_sound(
+      channel: channel
+    )
+  end
+
 
   protected
 

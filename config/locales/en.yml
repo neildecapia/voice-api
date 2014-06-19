@@ -7,8 +7,7 @@ en:
     create:
       successful: 'Call initiated'
   active_calls:
-    destroy:
-      not_found: 'Active call not found'
+    not_found: 'Active call not found'
   sounds:
     not_found: 'Sound not found'
     create:

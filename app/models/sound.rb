@@ -4,6 +4,8 @@ class Sound < ActiveRecord::Base
 
   mount_uploader :sound, SoundUploader
 
+  delegate :path, to: :sound
+
   def name
     self[:name].presence || sound.identifier
   end

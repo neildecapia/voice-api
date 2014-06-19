@@ -20,6 +20,19 @@ class Clients::Asterisk::Client
     @connection.hangup channel: channel
   end
 
+  def play_sound(options = {})
+    @connection.agi(
+      command: "exec playback \"#{options[:path]}\"",
+      channel: options[:channel]
+    )
+  end
+
+  def stop_sound(options = {})
+    @connection.redirect @config.call_options.merge(
+      channel: options[:channel]
+    )
+  end
+
 
   protected
 
