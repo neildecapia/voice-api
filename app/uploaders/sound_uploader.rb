@@ -1,7 +1,7 @@
 class SoundUploader < CarrierWave::Uploader::Base
 
   def store_dir
-    "uploads/#{mounted_as}/#{model.id}"
+    File.join Rails.application.config.asset_base, mounted_as.to_s, model.id.to_s
   end
 
   def extension_white_list

@@ -1,0 +1,8 @@
+default: &default
+  asset_base: 'uploads'
+
+development:
+  <<: *default
+
+test:
+  <<: *default
