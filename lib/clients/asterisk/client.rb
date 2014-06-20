@@ -21,8 +21,10 @@ class Clients::Asterisk::Client
   end
 
   def play_sound(options = {})
+    path = options[:path]
+    path = path.chomp File.extname(path)
     @connection.agi(
-      command: "exec playback \"#{options[:path]}\"",
+      command: "exec playback \"#{path}\"",
       channel: options[:channel]
     )
   end
