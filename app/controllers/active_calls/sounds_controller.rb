@@ -10,13 +10,13 @@ module ActiveCalls
     before_action :set_sound
 
     def create
-      @active_calls.play_sound(@sound)
+      @active_call.play_sound(@sound)
       @message = t.('.successful')
       render :show, status: :created
     end
 
     def destroy
-      @active_calls.stop_sound @sound
+      @active_call.stop_sound @sound
       render nothing: true, status: :no_content
     end
 
