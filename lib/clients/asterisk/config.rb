@@ -12,6 +12,10 @@ class Clients::Asterisk::Config
     @call_options ||= connection_options['calls']
   end
 
+  def redirect_options
+    @redirect_options ||= connection_options['redirect']
+  end
+
   def logger
     @logger ||=
       begin

@@ -30,7 +30,7 @@ class Clients::Asterisk::Client
   end
 
   def stop_sound(options = {})
-    @connection.redirect @config.call_options.merge(
+    @connection.redirect @config.redirect_options.merge(
       channel: options[:channel]
     )
   end
