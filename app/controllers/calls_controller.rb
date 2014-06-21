@@ -12,7 +12,7 @@ class CallsController < ApplicationController
   end
 
   def create
-    @call = current_account.calls.create call_params
+    @call = current_account.calls.build call_params
 
     respond_with @call do |format|
       format.json do
