@@ -98,7 +98,7 @@ describe ActiveCallsController do
           delete :destroy, id: 0, format: :json
           expect(response.body).to eq({
             errors: [
-              I18n.t(:not_found, scope: [ :active_calls, :destroy ])
+              I18n.t(:not_found, scope: :active_calls)
             ]
           }.to_json)
         end

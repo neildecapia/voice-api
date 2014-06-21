@@ -12,6 +12,7 @@ describe 'sounds/index.json.jbuilder' do
     expect(rendered).to eq([
       {
         account_id: sound.account_id,
+        id: sound.id,
         name: 'Ding',
         created_at: sound.created_at,
         updated_at: sound.updated_at
