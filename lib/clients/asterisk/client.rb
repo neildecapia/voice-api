@@ -24,7 +24,7 @@ class Clients::Asterisk::Client
     path = options[:path]
     path = path.chomp File.extname(path)
     @connection.agi(
-      command: "exec playback \"#{path}\"",
+      command: %Q[stream file "#{path}" "0123456789"],
       channel: options[:channel]
     )
   end
