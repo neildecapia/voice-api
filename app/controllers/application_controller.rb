@@ -9,5 +9,6 @@ class ApplicationController < ActionController::Base
   def current_account_id
     doorkeeper_token.application_id
   end
+  helper_method :current_account_id
 
 end

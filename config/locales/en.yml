@@ -8,6 +8,9 @@ en:
       successful: 'Call initiated'
   active_calls:
     not_found: 'Active call not found'
+    sounds:
+      create:
+        successful: 'Sound successfully played'
   sounds:
     not_found: 'Sound not found'
     create:

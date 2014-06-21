@@ -11,7 +11,7 @@ module ActiveCalls
 
     def create
       @active_call.play_sound(@sound)
-      @message = t.('.successful')
+      @message = t('.successful')
       render :show, status: :created
     end
 
