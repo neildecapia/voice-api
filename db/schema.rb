@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140605081536) do
+ActiveRecord::Schema.define(version: 20140622152108) do
 
   create_table "active_calls", force: true do |t|
     t.string  "unique_id",  limit: 32
@@ -84,6 +84,16 @@ ActiveRecord::Schema.define(version: 20140605081536) do
 
   add_index "oauth_applications", ["secret"], name: "index_oauth_applications_on_secret", unique: true, using: :btree
   add_index "oauth_applications", ["uid"], name: "index_oauth_applications_on_uid", unique: true, using: :btree
+
+  create_table "recordings", force: true do |t|
+    t.integer  "account_id"
+    t.string   "filename"
+    t.string   "format"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "recordings", ["account_id"], name: "index_recordings_on_account_id", using: :btree
 
   create_table "sounds", force: true do |t|
     t.integer  "account_id"

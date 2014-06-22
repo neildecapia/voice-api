@@ -5,7 +5,7 @@ class SoundUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    %w(alaw gsm ulaw wav mp3)
+    Rails.application.config.client.config.supported_formats
   end
 
 

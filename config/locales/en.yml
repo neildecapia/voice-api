@@ -11,6 +11,9 @@ en:
     sounds:
       create:
         successful: 'Sound successfully played'
+    recordings:
+      create:
+        successful: 'Recording successfully requested'
   sounds:
     not_found: 'Sound not found'
     create:

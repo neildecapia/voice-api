@@ -20,6 +20,10 @@ class Clients::Asterisk::Config
     @asset_paths ||= connection_options['asset_paths']
   end
 
+  def supported_formats
+    @supported_formats ||= connection_options['supported_formats']
+  end
+
   def logger
     @logger ||=
       begin

@@ -8,7 +8,10 @@ Rails.application.routes.draw do
 
     resources :calls, only: [ :index, :create ]
     resources :active_calls, only: [ :index, :destroy ] do
-      resources :sounds, only: [ :create, :destroy ], module: 'active_calls'
+      scope module: 'active_calls' do
+        resources :sounds, only: [ :create, :destroy ]
+        resources :recordings, only: :create
+      end
     end
 
     resources :sounds, only: [ :index, :create, :update, :destroy ]

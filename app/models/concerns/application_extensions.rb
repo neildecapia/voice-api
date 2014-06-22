@@ -8,6 +8,7 @@ module ApplicationExtensions
       account.has_many :active_calls
 
       account.has_many :sounds
+      account.has_many :recordings
     end
   end
 

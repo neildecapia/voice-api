@@ -18,6 +18,14 @@ class ActiveCall < ActiveRecord::Base
     )
   end
 
+  def record(options = {})
+    client.record options.merge(channel: channel)
+
+  rescue StandardError => e
+    logger.error "Error recording active call: #{e.message}"
+    logger.debug e.backtrace.join(?\n)
+    raise
+  end
 
   protected
 

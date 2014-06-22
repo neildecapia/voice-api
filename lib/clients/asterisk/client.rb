@@ -37,6 +37,24 @@ class Clients::Asterisk::Client
     )
   end
 
+  def record(options = {})
+    filename = options[:filename]
+    format = options[:format]
+    escape_digits = (0..9).to_a.join
+    timeout =
+      begin
+        Integer(options[:timeout])
+
+      rescue TypeError
+        -1
+      end
+
+    @connection.agi(
+      command: %Q[record file #{filename} #{format} "#{escape_digits}" #{timeout}],
+      channel: options[:channel]
+    )
+  end
+
 
   protected
 
