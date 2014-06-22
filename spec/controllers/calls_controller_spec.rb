@@ -89,7 +89,7 @@ describe CallsController do
 
         it 'renders an error message' do
           post :create, format: :json
-          expect(response.body).to eq({errors: ["To can't be blank"]}.to_json)
+          expect(response.body).to eq({errors: "Validation failed: To can't be blank"}.to_json)
         end
       end
 
@@ -97,7 +97,7 @@ describe CallsController do
         it 'should be fast' do
           expect(
             Benchmark.realtime do
-              post :create, format: :json
+              post :create, to: 'sip/user1', format: :json
             end
           ).to be < 0.1
         end

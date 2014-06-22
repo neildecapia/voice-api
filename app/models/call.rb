@@ -83,7 +83,7 @@ class Call < ActiveRecord::Base
   def never_save_from_here
     false
   end
-  alias never_destroy_from_here never_save_from_here
+  alias_method :never_destroy_from_here, :never_save_from_here
 
 
   private

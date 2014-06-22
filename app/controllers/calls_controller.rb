@@ -13,17 +13,15 @@ class CallsController < ApplicationController
 
   def create
     @call = current_account.calls.build call_params
+    begin
+      @call.save!
 
-    respond_with @call do |format|
-      format.json do
-        if @call.valid?
-          @message = t('.successful')
-
-        else
-          render json: { errors: @call.errors.full_messages }, status: :unprocessable_entity
-        end
-      end
+    rescue ActiveRecord::RecordNotSaved
     end
+    @message = t('.successful')
+
+  rescue ActiveRecord::RecordInvalid => e
+    render json: { errors: e.message }, status: :unprocessable_entity
   end
 
 
