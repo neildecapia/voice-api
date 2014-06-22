@@ -16,6 +16,10 @@ class Clients::Asterisk::Config
     @redirect_options ||= connection_options['redirect']
   end
 
+  def asset_paths
+    @asset_paths ||= connection_options['asset_paths']
+  end
+
   def logger
     @logger ||=
       begin
