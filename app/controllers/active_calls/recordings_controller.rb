@@ -1,27 +1,35 @@
-class ActiveCalls::RecordingsController < ApplicationController
+module ActiveCalls
 
-  include ActiveCallScoped
+  class RecordingsController < ApplicationController
 
-  def create
-    @recording = current_account.recordings.create! recording_params
-    @message = t('.successful')
+    doorkeeper_for :all
 
-  rescue ActiveRecord::RecordInvalid => e
-    render json: { errors: e.message }, status: :unprocessable_entity
-  end
+    include ActiveCallScoped
+
+    respond_to :json
+
+    def create
+      @recording = current_account.recordings.create! recording_params
+      @message = t('.successful')
+
+    rescue ActiveRecord::RecordInvalid => e
+      render json: { errors: e.message }, status: :unprocessable_entity
+    end
 
 
-  private
+    private
 
-  def recording_params
-    params.permit(
-      :filename,
-      :format,
-      :time_limit
-    )
-      .merge(
-        active_call: @active_call
+    def recording_params
+      params.permit(
+        :filename,
+        :format,
+        :time_limit
       )
+        .merge(
+          active_call: @active_call
+        )
+    end
+
   end
 
 end

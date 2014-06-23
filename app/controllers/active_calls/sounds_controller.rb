@@ -2,9 +2,9 @@ module ActiveCalls
 
   class SoundsController < ApplicationController
 
-    include ActiveCallScoped
-
     doorkeeper_for :all
+
+    include ActiveCallScoped
 
     respond_to :json
 
