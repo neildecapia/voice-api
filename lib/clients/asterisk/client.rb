@@ -70,8 +70,8 @@ class Clients::Asterisk::Client
 
     if options[:ring_timeout].present?
       begin
-        call_params[:timeout] = Integer(options[:ring_timeout]) * 10_000
-      rescue TypeError
+        call_params[:timeout] = Integer(options[:ring_timeout]) * 1_000
+      rescue TypeError, ArgumentError
       end
     end
 

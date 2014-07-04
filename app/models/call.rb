@@ -48,10 +48,10 @@ class Call < ActiveRecord::Base
   end
 
   def ring_timeout
-    Integer(self[:ring_timeout]).seconds
+    Integer(@ring_timeout).seconds
 
-  rescue TypeError
-    120.seconds
+  rescue TypeError, ArgumentError
+    @ring_timeout
   end
 
 
