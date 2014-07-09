@@ -20,7 +20,7 @@ module ClientCallbacks
   def hangup(event)
     ActiveCall
       .where(unique_id: event['Uniqueid'])
-    .destroy_all
+    .delete_all
   end
 
 end
