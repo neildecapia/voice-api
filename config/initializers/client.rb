@@ -5,4 +5,4 @@ Clients::Asterisk.configure do
   config.path = Rails.root.join('config', 'asterisk.yml').to_s
 end
 
-Rails.application.config.client = Clients::Asterisk.client
+Api::Application.config.client = Clients::Asterisk.client

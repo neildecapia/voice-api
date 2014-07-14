@@ -10,7 +10,7 @@ class Recording < ActiveRecord::Base
   validates :format,
     presence: true,
     inclusion: {
-      in: Rails.application.config.client.config.supported_formats,
+      in: Api::Application.config.client.config.supported_formats,
       allow_blank: true
     }
   validates :time_limit,
@@ -79,7 +79,7 @@ class Recording < ActiveRecord::Base
   end
 
   def asset_base
-    Rails.application.config.client.config.asset_paths['recordings']
+    Api::Application.config.client.config.asset_paths['recordings']
   end
 
 end

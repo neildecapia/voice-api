@@ -5,14 +5,14 @@ class SoundUploader < CarrierWave::Uploader::Base
   end
 
   def extension_white_list
-    Rails.application.config.client.config.supported_formats
+    Api::Application.config.client.config.supported_formats
   end
 
 
   private
 
   def asset_base
-    Rails.application.config.client.config.asset_paths['sounds']
+    Api::Application.config.client.config.asset_paths['sounds']
   end
 
 end
