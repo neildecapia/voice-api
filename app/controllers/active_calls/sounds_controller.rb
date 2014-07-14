@@ -25,7 +25,7 @@ module ActiveCalls
     protected
 
     def set_sound
-      @sound = current_account.sounds.find params[:sound_id]
+      @sound = current_account.sounds.find params[:id]
 
     rescue ActiveRecord::RecordNotFound
       render(
