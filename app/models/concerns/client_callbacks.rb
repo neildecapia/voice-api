@@ -21,6 +21,8 @@ module ClientCallbacks
     ActiveCall
       .where(unique_id: event['Uniqueid'])
     .delete_all
+
+  rescue ActiveRecord::StatementInvalid
   end
 
 end
