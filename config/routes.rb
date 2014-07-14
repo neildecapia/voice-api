@@ -16,4 +16,9 @@ Rails.application.routes.draw do
 
     resources :sounds, only: [ :index, :create, :update, :destroy ]
   end
+
+  # catchall route to render a "route not found" error
+  match '*path',
+    to: 'application#render_404',
+    via: [:get, :post, :put, :delete]
 end

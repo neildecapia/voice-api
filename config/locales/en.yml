@@ -1,4 +1,7 @@
 en:
+  controller:
+    internal_server_error: 'Server error encountered'
+    not_found: 'Resource not found'
   activerecord:
     attributes:
       call:
