@@ -4,6 +4,12 @@ class Sound < ActiveRecord::Base
 
   mount_uploader :sound, SoundUploader
 
+  validates :account, presence: true
+  validates :name,
+    presence: true,
+    uniqueness: { scope: :account_id, allow_blank: true }
+  validates :sound, presence: true
+
   delegate :path, to: :sound
 
   def name
