@@ -20,8 +20,8 @@ rails_env = ENV['RAILS_ENV'] || 'development'
 stderr_path "#{app_path}/log/unicorn.log"
 stdout_path "#{app_path}/log/unicorn.log"
 
-#preload_app true
-#GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
+preload_app true
+GC.respond_to?(:copy_on_write_friendly=) and GC.copy_on_write_friendly = true
 
 # Set master PID location
 pid "#{app_path}/tmp/pids/unicorn.pid"
