@@ -4,35 +4,57 @@ class Clients::Asterisk::Client
 
   def initialize(config)
     @config = config
-
     @handler = Clients::Asterisk::EventHandler.new self
+  end
 
-    @connection = Clients::Asterisk::Connection.new(
-      @config.connection_options,
-      @handler,
-      @config.logger
-    )
+  def connect!
+    attempts = 0
+
+    begin
+      attempts += 1
+
+      @connection = Clients::Asterisk::Connection.new(
+        @config.connection_options,
+        @handler,
+        @config.logger
+      )
+      @connected = true
+
+    rescue StandardError => e
+      if attempts > 3
+        @config.logger.error "Unable to connect to Asterisk: #{e.message}"
+        raise ConnectionError, e.message
+      end
+
+      sleep attempts
+      retry
+    end
+  end
+
+  def disconnect!
+    @connection = nil
+    @connected = false
   end
 
   def call(options = {})
-    @connection.originate call_params_from_options(options)
+    connection.originate call_params_from_options(options)
   end
 
   def hangup(channel)
-    @connection.hangup channel: channel
+    connection.hangup channel: channel
   end
 
   def play_sound(options = {})
     path = options[:path]
     path = path.chomp File.extname(path)
-    @connection.agi(
+    connection.agi(
       command: %Q[stream file "#{path}" "0123456789"],
       channel: options[:channel]
     )
   end
 
   def stop_sound(options = {})
-    @connection.redirect @config.redirect_options.merge(
+    connection.redirect @config.redirect_options.merge(
       channel: options[:channel]
     )
   end
@@ -49,7 +71,7 @@ class Clients::Asterisk::Client
         -1
       end
 
-    @connection.agi(
+    connection.agi(
       command: %Q[record file #{filename} #{format} "#{escape_digits}" #{timeout}],
       channel: options[:channel]
     )
@@ -87,6 +109,14 @@ class Clients::Asterisk::Client
     end
 
     call_params.reverse_merge @config.call_options
+  end
+
+
+  private
+
+  def connection
+    connect! unless @connected
+    @connection
   end
 
 end

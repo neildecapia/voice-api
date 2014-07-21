@@ -3,6 +3,8 @@ require 'ruby_ami'
 class Clients::Asterisk::Connection
 
   def initialize(config, handler, logger)
+    @logger = logger
+
     RubyAMI::Stream.supervise_as(
       :ami_stream,
       config['host'].presence || 'localhost',
@@ -10,13 +12,17 @@ class Clients::Asterisk::Connection
       config['username'],
       config['password'],
       handler,
-      logger,
+      @logger,
       config['timeout'].presence || 0
     )
   end
 
   def method_missing(method, *args, &block)
     stream.send_action method, *args, &block
+
+  rescue StandardError => e
+    @logger.error "Error communicating with stream: #{e.message}"
+    raise Clients::Asterisk::ConnectionError, e.message
   end
 
 

@@ -6,6 +6,9 @@ module Clients::Asterisk
   autoload :Connection, 'clients/asterisk/connection'
   autoload :EventHandler, 'clients/asterisk/event_handler'
 
+  Error = Class.new(StandardError)
+  ConnectionError = Class.new(Error)
+
   @@config = nil
   @@client = nil
 

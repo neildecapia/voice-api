@@ -11,4 +11,8 @@ class Clients::Asterisk::EventHandler
     __send__ method, event if respond_to?(method)
   end
 
+  def shutdown(event)
+    @client.disconnect!
+  end
+
 end
