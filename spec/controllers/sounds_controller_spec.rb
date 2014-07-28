@@ -48,6 +48,10 @@ describe SoundsController do
 
   describe "POST 'create'" do
 
+    let(:sound_file) do
+      fixture_file_upload('sounds/sample.wav', 'audio/vnd.wave')
+    end
+
     context 'when not authenticated' do
       it 'returns http unauthorized' do
         post :create, format: :json
@@ -61,24 +65,24 @@ describe SoundsController do
       end
 
       it 'returns http success' do
-        post :create, name: 'Dong', format: :json
+        post :create, name: 'Dong', sound: sound_file, format: :json
         expect(response).to be_success
         expect(response.code).to eq('201')
       end
 
       it 'assigns a "sound created successfully" message to @message' do
-        post :create, name: 'Dong', format: :json
+        post :create, name: 'Dong', sound: sound_file, format: :json
         expect(assigns(:message)).to eq(I18n.t(:successful, scope: [ :sounds, :create ]))
       end
 
       it 'renders the show template' do
-        post :create, name: 'Dong', format: :json
+        post :create, name: 'Dong', sound: sound_file, format: :json
         expect(response).to render_template('show')
       end
 
       it 'creates a new sound' do
         expect {
-          post :create, name: 'Dong', format: :json
+          post :create, name: 'Dong', sound: sound_file, format: :json
         }.to change(Sound, :count).by 1
       end
 
@@ -112,6 +116,12 @@ describe SoundsController do
 
     context 'when authenticated' do
       fixtures :sounds
+
+      class SoundUploader
+        def blank?
+          false
+        end
+      end
 
       before do
         allow(controller).to receive(:doorkeeper_token) { token }
