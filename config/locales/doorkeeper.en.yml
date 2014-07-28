@@ -10,6 +10,8 @@ en:
               invalid_uri: 'must be a valid URI.'
               relative_uri: 'must be an absolute URI.'
   doorkeeper:
+    scopes:
+      public: 'Access your account information'
     errors:
       messages:
         # Common error messages

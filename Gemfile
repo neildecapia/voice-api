@@ -9,6 +9,7 @@ gem 'unicorn'
 
 gem 'ruby_ami'
 
+gem 'devise'
 gem 'doorkeeper'
 # @note Remove this once Doorkeeper application management has been
 #   removed

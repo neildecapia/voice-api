@@ -28,6 +28,7 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    bcrypt (3.1.7)
     builder (3.2.2)
     capistrano (3.2.1)
       i18n
@@ -52,6 +53,12 @@ GEM
     celluloid-io (0.15.0)
       celluloid (>= 0.15.0)
       nio4r (>= 0.5.0)
+    devise (3.2.4)
+      bcrypt (~> 3.0)
+      orm_adapter (~> 0.1)
+      railties (>= 3.2.6, < 5)
+      thread_safe (~> 0.1)
+      warden (~> 1.2.3)
     diff-lcs (1.2.5)
     doorkeeper (1.2.0)
       railties (>= 3.1)
@@ -77,6 +84,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.8.0)
     nio4r (1.0.0)
+    orm_adapter (0.5.0)
     polyglot (0.3.4)
     rack (1.5.2)
     rack-test (0.6.2)
@@ -155,6 +163,8 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    warden (1.2.3)
+      rack (>= 1.0)
 
 PLATFORMS
   ruby
@@ -164,6 +174,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rbenv
   carrierwave
+  devise
   doorkeeper
   jbuilder (~> 2.0)
   kaminari
