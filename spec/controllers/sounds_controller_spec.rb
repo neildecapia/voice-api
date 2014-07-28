@@ -2,18 +2,12 @@ require 'spec_helper'
 
 describe SoundsController do
 
-  set_fixture_class oauth_applications: Doorkeeper::Application
-  fixtures :oauth_applications
-
-  let(:application) do
-    oauth_applications(:alice)
-  end
+  fixtures :accounts
 
   let(:token) do
     double(
-      accessible?: true,
-      application_id: application.id,
-      application: application
+      resource_owner_id: accounts(:alice).id,
+      accessible?: true
     )
   end
 

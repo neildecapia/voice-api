@@ -18,11 +18,11 @@ class ApplicationController < ActionController::Base
   protected
 
   def current_account
-    doorkeeper_token.application
+    Account.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
   end
 
   def current_account_id
-    doorkeeper_token.application_id
+    current_account.try(:id)
   end
   helper_method :current_account_id
 

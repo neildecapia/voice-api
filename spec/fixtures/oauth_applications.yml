@@ -1,6 +1,6 @@
 ---
-alice:
-  name: Alice
+alice_call_app:
+  name: Alice Call
   uid: a304dea35ccfb2ca0f8420cec519cd29652782c09f5cc405f090d932d9cadc54
   secret: dd82e05fe43304e944a26fb2f51cbcce2ddc988b9a119381e70b1af7419e2ecb
   redirect_uri: urn:ietf:wg:oauth:2.0:oob

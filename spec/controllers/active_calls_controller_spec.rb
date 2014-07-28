@@ -2,18 +2,16 @@ require 'spec_helper'
 
 describe ActiveCallsController do
 
-  set_fixture_class oauth_applications: Doorkeeper::Application
-  fixtures :oauth_applications
+  fixtures :accounts
 
-  let(:application) do
-    oauth_applications(:alice)
+  let(:account) do
+    accounts(:alice)
   end
 
   let(:token) do
     double(
-      accessible?: true,
-      application_id: application.id,
-      application: application
+      resource_owner_id: account.id,
+      accessible?: true
     )
   end
 
@@ -44,7 +42,7 @@ describe ActiveCallsController do
       end
 
       it "assigns the account's active calls to @active_calls" do
-        active_calls(:user1).update_attribute(:account_id, application.id)
+        active_calls(:user1).update_attribute(:account_id, account.id)
         get :index, format: :json
         expect(assigns(:active_calls)).to eq([ active_calls(:user1) ])
       end
@@ -55,7 +53,7 @@ describe ActiveCallsController do
     fixtures :active_calls
 
     before do
-      active_calls(:user1).update_attribute(:account_id, application.id)
+      active_calls(:user1).update_attribute(:account_id, account.id)
       @id = active_calls(:user1).id
     end
 
@@ -82,7 +80,7 @@ describe ActiveCallsController do
       end
 
       it "assigns the requested active call to @active_call" do
-        active_calls(:user1).update_attribute(:account_id, application.id)
+        active_calls(:user1).update_attribute(:account_id, account.id)
 
         delete :destroy, id: @id, format: :json
         expect(assigns(:active_call)).to eq(active_calls(:user1))

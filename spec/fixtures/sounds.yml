@@ -1,4 +1,5 @@
 ---
 ding:
   account: alice
-  name: 'Ding'
+  name: Ding
+  sound: sounds/sample.wav
