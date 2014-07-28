@@ -11,11 +11,11 @@ describe SoundsController do
     end
 
     it 'does not route to #show' do
-      expect(get: '/v1/sounds/1').not_to be_routable
+      expect(get: '/v1/sounds/1').to not_be_routable
     end
 
     it 'does not route to #new' do
-      expect(get: '/v1/sounds/new').not_to be_routable
+      expect(get: '/v1/sounds/new').to not_be_routable
     end
 
     it 'routes to #create' do
@@ -26,7 +26,7 @@ describe SoundsController do
     end
 
     it 'does not route to #edit' do
-      expect(get: '/v1/sounds/1/edit').not_to be_routable
+      expect(get: '/v1/sounds/1/edit').to not_be_routable
     end
 
     it 'routes to #update' do

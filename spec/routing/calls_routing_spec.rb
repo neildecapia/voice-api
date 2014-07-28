@@ -11,11 +11,11 @@ describe CallsController do
     end
 
     it 'does not route to #show' do
-      expect(get: '/v1/calls/1').not_to be_routable
+      expect(get: '/v1/calls/1').to not_be_routable
     end
 
     it 'does not route to #new' do
-      expect(get: '/v1/calls/new').not_to be_routable
+      expect(get: '/v1/calls/new').to not_be_routable
     end
 
     it 'routes to #create' do
@@ -26,11 +26,11 @@ describe CallsController do
     end
 
     it 'does not route to #update' do
-      expect(put: '/v1/calls/1').not_to be_routable
+      expect(put: '/v1/calls/1').to not_be_routable
     end
 
     it 'does not route to #destroy' do
-      expect(delete: '/v1/calls/1').not_to be_routable
+      expect(delete: '/v1/calls/1').to not_be_routable
     end
   end
 
