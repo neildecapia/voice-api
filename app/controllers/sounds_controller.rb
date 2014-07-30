@@ -1,6 +1,6 @@
 class SoundsController < ApplicationController
 
-  doorkeeper_for :all
+  doorkeeper_for :all, scopes: [ :voice ]
 
   respond_to :json
 

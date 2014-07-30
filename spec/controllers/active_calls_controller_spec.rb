@@ -11,6 +11,7 @@ describe ActiveCallsController do
   let(:token) do
     double(
       resource_owner_id: account.id,
+      scopes: Doorkeeper::OAuth::Scopes.from_string('voice'),
       accessible?: true
     )
   end

@@ -7,6 +7,7 @@ describe SoundsController do
   let(:token) do
     double(
       resource_owner_id: accounts(:alice).id,
+      scopes: Doorkeeper::OAuth::Scopes.from_string('voice'),
       accessible?: true
     )
   end

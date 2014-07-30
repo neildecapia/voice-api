@@ -2,7 +2,7 @@ module ActiveCalls
 
   class RecordingsController < ApplicationController
 
-    doorkeeper_for :all
+    doorkeeper_for :all, scopes: [ :voice ]
 
     include ActiveCallScoped
 

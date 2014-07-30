@@ -12,6 +12,7 @@ en:
   doorkeeper:
     scopes:
       public: 'Access your account information'
+      voice: 'Make Voice API calls'
     errors:
       messages:
         # Common error messages
