@@ -1,5 +1,7 @@
 class Account < ActiveRecord::Base
 
+  has_many :applications, class_name: 'Doorkeeper::Application', as: :owner
+
   has_many :calls
   has_many :active_calls
 
