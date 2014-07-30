@@ -3,17 +3,16 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.1'
 gem 'mysql2', '0.3.13'
 gem 'jbuilder', '~> 2.0'
-gem 'kaminari'
-gem 'carrierwave'
-gem 'unicorn'
-
-gem 'ruby_ami'
+gem 'sass-rails', '~> 4.0.3'
 
 gem 'devise'
+gem 'kaminari'
+gem 'carrierwave'
 gem 'doorkeeper'
-# @note Remove this once Doorkeeper application management has been
-#   removed
-gem 'sass-rails', '~> 4.0.3'
+
+gem 'ruby_ami'
+gem 'sidekiq'
+gem 'unicorn'
 
 group :development do
   gem 'capistrano-rails', require: false
