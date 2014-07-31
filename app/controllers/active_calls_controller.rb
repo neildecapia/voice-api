@@ -2,6 +2,8 @@ class ActiveCallsController < ApplicationController
 
   doorkeeper_for :all, scopes: [ :voice ]
 
+  before_action :set_active_call, only: [ :answer, :destroy ]
+
   respond_to :json
 
   def index
@@ -11,10 +13,21 @@ class ActiveCallsController < ApplicationController
       .per(params[:per_page])
   end
 
+  def answer
+    @active_call.answer
+    render nothing: true, status: :created
+  end
+
   def destroy
-    @active_call = current_account.active_calls.find(params[:id])
     @active_call.destroy
     render nothing: true, status: :no_content
+  end
+
+
+  protected
+
+  def set_active_call
+    @active_call = current_account.active_calls.find(params[:id])
 
   rescue ActiveRecord::RecordNotFound
     render json: { errors: [ t('active_calls.not_found') ] }, status: :not_found

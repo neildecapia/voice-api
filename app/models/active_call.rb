@@ -6,6 +6,10 @@ class ActiveCall < ActiveRecord::Base
   after_commit :notify_account, on: :create
   after_commit :hangup_call, on: :destroy
 
+  def answer
+    client.answer(channel)
+  end
+
   def play_sound(sound)
     client.play_sound(
       channel: channel,

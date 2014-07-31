@@ -22,6 +22,14 @@ describe ActiveCallsController do
       expect(post: '/v1/active_calls').to not_be_routable
     end
 
+    it 'routes to #answer' do
+      expect(post: '/v1/active_calls/1/answer').to route_to(
+        controller: 'active_calls',
+        action: 'answer',
+        id: '1'
+      )
+    end
+
     it 'does not route to #update' do
       expect(put: '/v1/active_calls/1').to not_be_routable
     end

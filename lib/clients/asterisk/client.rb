@@ -40,6 +40,13 @@ class Clients::Asterisk::Client
     connection.originate call_params_from_options(options)
   end
 
+  def answer(channel)
+    connection.agi(
+      command: 'answer',
+      channel: channel
+    )
+  end
+
   def hangup(channel)
     connection.hangup channel: channel
   end

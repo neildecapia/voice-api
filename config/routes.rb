@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   scope '/v1' do
     resources :calls, only: [ :index, :create ]
     resources :active_calls, only: [ :index, :destroy ] do
+      post :answer, on: :member
       scope module: 'active_calls' do
         resources :sounds, only: [ :create, :destroy ]
         resources :recordings, only: :create
