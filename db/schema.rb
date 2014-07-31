@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140730031739) do
+ActiveRecord::Schema.define(version: 20140731045048) do
 
   create_table "accounts", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140730031739) do
     t.datetime "locked_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "callback_url"
   end
 
   add_index "accounts", ["confirmation_token"], name: "index_accounts_on_confirmation_token", unique: true, using: :btree
@@ -41,9 +42,11 @@ ActiveRecord::Schema.define(version: 20140730031739) do
   add_index "accounts", ["unlock_token"], name: "index_accounts_on_unlock_token", unique: true, using: :btree
 
   create_table "active_calls", force: true do |t|
-    t.string  "unique_id",  limit: 32
+    t.string  "unique_id",        limit: 32
     t.integer "account_id"
-    t.string  "channel",    limit: 80
+    t.string  "channel",          limit: 80
+    t.string  "caller_id_number", limit: 80
+    t.string  "caller_id_name",   limit: 80
   end
 
   add_index "active_calls", ["account_id"], name: "index_active_calls_on_account_id", using: :btree

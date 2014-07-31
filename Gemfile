@@ -12,6 +12,7 @@ gem 'doorkeeper'
 
 gem 'ruby_ami'
 gem 'sidekiq'
+gem 'typhoeus'
 gem 'unicorn'
 
 group :development do

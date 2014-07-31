@@ -6,6 +6,9 @@ en:
     attributes:
       call:
         destination_channel: 'To'
+    errors:
+      messages:
+        invalid_url: 'is an invalid URL'
   calls:
     create:
       successful: 'Call initiated'

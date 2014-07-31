@@ -4,8 +4,11 @@ module ClientCallbacks
 
   def newchannel(event)
     ActiveCall.create(
+      account_id: event['Exten'],
       unique_id: event['Uniqueid'],
-      channel: event['Channel']
+      channel: event['Channel'],
+      caller_id_number: event['CallerIDNum'],
+      caller_id_name: event['CallerIDName']
     )
 
   rescue ActiveRecord::StatementInvalid

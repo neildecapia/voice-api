@@ -8,6 +8,8 @@ class Account < ActiveRecord::Base
   has_many :sounds
   has_many :recordings
 
+  validates :callback_url, url: { allow_blank: true }
+
   devise(
     :database_authenticatable,
     :registerable,
