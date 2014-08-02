@@ -16,11 +16,13 @@ server {
     proxy_set_header Host $http_host;
     proxy_redirect off;
 
+    try_files /system/maintenance.html
+      $uri $uri/index.html $uri.html
+      @app;
+  }
 
-    if (!-f $request_filename) {
-      proxy_pass http://unicorn-<%= fetch(:application) %>;
-      break;
-    }
+  location @app {
+    proxy_pass http://unicorn-<%= fetch(:application) %>;
   }
 
   error_page 500 502 503 504 /500.html;
