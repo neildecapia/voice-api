@@ -1,9 +1,14 @@
 class ActiveCall < ActiveRecord::Base
 
+  CHANNEL_STATE_EVENTS = {
+    0 => 'call_started',
+    6 => 'call_connected'
+  }
+
   class_attribute :client
   self.client = Api::Application.config.client
 
-  after_commit :notify_account, on: :create
+  after_commit :notify_account, on: [ :create, :update ]
   after_commit :hangup_call, on: :destroy
 
   def answer
@@ -48,10 +53,11 @@ class ActiveCall < ActiveRecord::Base
 
   def notify_account
     return if account_id.blank?
+    return unless event = CHANNEL_STATE_EVENTS[channel_state]
 
     CallbackWorker.perform_async(
       account_id,
-      'incoming_call',
+      event,
       self.class.name,
       id
     )
