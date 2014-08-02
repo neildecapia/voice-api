@@ -7,9 +7,11 @@ module ClientCallbacks
       account_id: event['Exten'],
       unique_id: event['Uniqueid'],
       channel: event['Channel'],
+      channel_state: event['ChannelState'].to_i,
       caller_id_number: event['CallerIDNum'],
       caller_id_name: event['CallerIDName']
     )
+    return
 
   rescue ActiveRecord::StatementInvalid
   end
