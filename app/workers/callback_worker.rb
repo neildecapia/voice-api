@@ -2,7 +2,7 @@ class CallbackWorker
 
   include Sidekiq::Worker
 
-  def perform(account_id, event, model_class, id)
+  def perform(account_id, event, model_class, id, extra = {})
     if account_id.blank? || event.blank? || model_class.blank? || id.blank?
       return 'OK'
     end
@@ -20,10 +20,10 @@ class CallbackWorker
 
     Typhoeus.post(
       account.callback_url,
-      body: {
+      body: extra.reverse_merge({
         event: event,
-        details: model
-      }.to_json
+        call: model
+      }).to_json
     )
 
     return 'OK'

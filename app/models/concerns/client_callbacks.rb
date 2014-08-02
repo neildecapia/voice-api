@@ -43,6 +43,20 @@ module ClientCallbacks
   rescue ActiveRecord::StatementInvalid
   end
 
+  def async_agi(event)
+    active_call = ActiveCall.where(channel: event['Channel']).first
+    return unless active_call && active_call.sound.present?
+
+    agi_result = RubyAMI::AGIResultParser.new(event['Result'])
+    result = agi_result.result
+    unless result == 0
+      active_call.dtmf = result.chr rescue nil
+    end
+
+    active_call.update_attribute(:sound, nil)
+    return
+  end
+
 end
 
 require 'clients/asterisk/event_handler'

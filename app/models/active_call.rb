@@ -8,24 +8,16 @@ class ActiveCall < ActiveRecord::Base
   class_attribute :client
   self.client = Api::Application.config.client
 
+  belongs_to :sound
+
+  after_commit :play_sound, on: :update
   after_commit :notify_account, on: [ :create, :update ]
   after_commit :hangup_call, on: :destroy
 
+  attr_accessor :dtmf
+
   def answer
     client.answer(channel)
-  end
-
-  def play_sound(sound)
-    client.play_sound(
-      channel: channel,
-      path: sound.path
-    )
-  end
-
-  def stop_sound(sound)
-    client.stop_sound(
-      channel: channel
-    )
   end
 
   def record(options = {})
@@ -38,28 +30,58 @@ class ActiveCall < ActiveRecord::Base
   end
 
   def as_json(options = {})
-    # @note This assumes that the JSON representation of an ActiveCall
-    #   is always an incoming call (hence the `from` key).
-    {
+    attrs = {
       id: id,
       account_id: account_id,
-      from: caller_id_number,
+      number: caller_id_number,
       caller_id: caller_id_name
     }
+    attrs[:sound_id] = sound_id if sound.present?
+    attrs
   end
 
 
   protected
 
+  def play_sound
+    return unless previous_changes['sound_id']
+
+    if sound.present?
+      client.play_sound(
+        channel: channel,
+        path: sound.path
+      )
+
+    else
+      client.stop_sound(
+        channel: channel
+      )
+    end
+
+    return
+  end
+
   def notify_account
     return if account_id.blank?
-    return unless event = CHANNEL_STATE_EVENTS[channel_state]
+
+    event =
+      if previous_changes['channel_state']
+        CHANNEL_STATE_EVENTS[channel_state]
+
+      elsif previous_changes['sound_id'].last.nil?
+        'sound_playback_ended'
+      end
+    return unless event
+
+    extra = {}
+    extra[:dtmf] = dtmf if dtmf
 
     CallbackWorker.perform_async(
       account_id,
       event,
       self.class.name,
-      id
+      id,
+      extra
     )
     return
   end

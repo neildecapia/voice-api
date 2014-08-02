@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140802052615) do
+ActiveRecord::Schema.define(version: 20140802072420) do
 
   create_table "accounts", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20140802052615) do
     t.string  "caller_id_number", limit: 80
     t.string  "caller_id_name",   limit: 80
     t.integer "channel_state"
+    t.integer "sound_id"
   end
 
   add_index "active_calls", ["account_id"], name: "index_active_calls_on_account_id", using: :btree
