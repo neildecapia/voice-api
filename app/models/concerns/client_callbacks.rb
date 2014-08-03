@@ -35,9 +35,10 @@ module ClientCallbacks
   end
 
   def hangup(event)
-    ActiveCall
-      .where(unique_id: event['Uniqueid'])
-    .delete_all
+    active_call = ActiveCall.where(unique_id: event['Uniqueid']).first
+    return unless active_call
+
+    active_call.hangup
     return
 
   rescue ActiveRecord::StatementInvalid

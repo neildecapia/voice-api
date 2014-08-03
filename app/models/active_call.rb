@@ -8,6 +8,7 @@ class ActiveCall < ActiveRecord::Base
   class_attribute :client
   self.client = Api::Application.config.client
 
+  belongs_to :account
   belongs_to :sound
 
   after_commit :play_sound, on: :update
@@ -18,6 +19,11 @@ class ActiveCall < ActiveRecord::Base
 
   def answer
     client.answer(channel)
+  end
+
+  def hangup
+    hangup_notify_account
+    delete
   end
 
   def bridge(other_active_call)
@@ -90,8 +96,17 @@ class ActiveCall < ActiveRecord::Base
     return
   end
 
+  def hangup_notify_account
+    return unless account.callback_url.present?
+    HangupCallbackWorker.perform_async(
+      account.callback_url,
+      as_json
+    )
+  end
+
   def hangup_call
     begin
+      hangup_notify_account
       client.hangup channel
 
     rescue StandardError
