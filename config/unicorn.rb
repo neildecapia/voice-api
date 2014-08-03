@@ -31,6 +31,8 @@ before_fork do |server, worker|
     ActiveRecord::Base.connection.disconnect!
   end
 
+  Api::Application.config.client.disconnect!
+
   old_pid = "#{server.config[:pid]}.oldbin"
   if File.exists?(old_pid) && old_pid != server.pid
     begin
@@ -45,4 +47,6 @@ after_fork do |server, worker|
   if defined?(ActiveRecord::Base)
     ActiveRecord::Base.establish_connection
   end
+
+  Api::Application.config.client.connect!
 end

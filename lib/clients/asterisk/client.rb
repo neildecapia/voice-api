@@ -8,6 +8,7 @@ class Clients::Asterisk::Client
   end
 
   def connect!
+    return @connected if @connected
     attempts = 0
 
     begin
@@ -18,6 +19,7 @@ class Clients::Asterisk::Client
         @handler,
         @config.logger
       )
+      @connection.start!
       @connected = true
 
     rescue StandardError => e
@@ -130,7 +132,7 @@ class Clients::Asterisk::Client
   private
 
   def connection
-    connect! unless @connected
+    connect!
     @connection
   end
 

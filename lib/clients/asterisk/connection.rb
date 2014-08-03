@@ -17,6 +17,10 @@ class Clients::Asterisk::Connection
     )
   end
 
+  def start!
+    stream
+  end
+
   def method_missing(method, *args, &block)
     stream.send_action method, *args, &block
 
@@ -33,6 +37,5 @@ class Clients::Asterisk::Connection
       stream.async.run unless stream.started?
     end
   end
-
 
 end
