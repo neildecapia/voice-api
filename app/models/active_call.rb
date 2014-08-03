@@ -20,6 +20,10 @@ class ActiveCall < ActiveRecord::Base
     client.answer(channel)
   end
 
+  def bridge(other_active_call)
+    client.bridge(channel, other_active_call.channel)
+  end
+
   def record(options = {})
     client.record options.merge(channel: channel)
 

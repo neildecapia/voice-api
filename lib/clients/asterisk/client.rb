@@ -47,6 +47,14 @@ class Clients::Asterisk::Client
     )
   end
 
+  def bridge(channel1, channel2)
+    connection.bridge(
+      channel1: channel1,
+      channel2: channel2,
+      tone: 'yes'
+    )
+  end
+
   def hangup(channel)
     connection.hangup channel: channel
   end

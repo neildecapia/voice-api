@@ -2,7 +2,7 @@ class ActiveCallsController < ApplicationController
 
   doorkeeper_for :all, scopes: [ :voice ]
 
-  before_action :set_active_call, only: [ :answer, :destroy ]
+  before_action :set_active_call, only: [ :answer, :bridge, :destroy ]
 
   respond_to :json
 
@@ -15,6 +15,12 @@ class ActiveCallsController < ApplicationController
 
   def answer
     @active_call.answer
+    render nothing: true, status: :created
+  end
+
+  def bridge
+    @other_call = current_account.active_calls.find(params[:active_call_id])
+    @active_call.bridge @other_call
     render nothing: true, status: :created
   end
 
