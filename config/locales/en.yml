@@ -4,6 +4,8 @@ en:
     not_found: 'Resource not found'
   activerecord:
     attributes:
+      account:
+        callback_url: 'Callback URL'
       call:
         destination_channel: 'To'
     errors:

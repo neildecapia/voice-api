@@ -21,8 +21,12 @@
   </head>
   <body>
     <div class="container">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+      <% if notice %>
+        <p class="alert bg-success"><%= notice %></p>
+      <% end %>
+      <% if alert %>
+        <p class="alert bg-warning"><%= alert %></p>
+      <% end %>
 
       <%= yield %>
     </div>

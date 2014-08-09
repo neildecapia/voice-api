@@ -18,7 +18,15 @@ class ApplicationController < ActionController::Base
   protected
 
   def current_account
-    Account.find(doorkeeper_token.resource_owner_id) if doorkeeper_token
+    return @account if defined? @account
+
+    @account =
+      if doorkeeper_token
+        Account.find(doorkeeper_token.resource_owner_id)
+
+      else
+        signed_in_resource
+      end
   end
 
   def current_account_id
